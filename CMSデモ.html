@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMS更新デモ | M.Tポートフォリオ</title>
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 40px 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border-radius: 8px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.product {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.stock {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 8px 20px;
+  border: 1px solid #333;
+  background: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #333;
+  color: white;
+}
+
+.note {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>CMS更新練習デモ</h1>
+<p>想定業務：商品情報の更新（価格・在庫ステータス変更）</p>
+
+<div class="product">
+  <h2 id="product-name">春限定ハンドクリーム</h2>
+  <div class="price" id="price">¥1,800</div>
+  <div class="stock" id="stock">在庫あり</div>
+  <button onclick="updateContent()">更新する（価格改定＋在庫変更）</button>
+</div>
+
+<div class="note">
+※ ボタンを押すと、実務で想定される「価格変更」「在庫表示更新」を再現します。
+</div>
+
+</div>
+
+<script>
+let updated = false;
+
+function updateContent() {
+  const price = document.getElementById("price");
+  const stock = document.getElementById("stock");
+
+  if (!updated) {
+    price.textContent = "¥1,500（セール価格）";
+    stock.textContent = "残りわずか";
+    stock.style.color = "red";
+    updated = true;
+  } else {
+    price.textContent = "¥1,800";
+    stock.textContent = "在庫あり";
+    stock.style.color = "black";
+    updated = false;
+  }
+}
+</script>
+
+</body>
+</html>
