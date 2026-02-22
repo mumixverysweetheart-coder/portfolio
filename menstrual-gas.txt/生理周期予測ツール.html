@@ -1,0 +1,90 @@
+function updateMenstrualCycle() {
+  const SEARCH_WORD = "生理開始";
+  const COLOR_PERIOD = "1";    // ラベンダー
+  const COLOR_OVULATION = "6"; // オレンジ
+  const COLOR_FERTILITY = "4"; // 薄い青
+
+  const calendar = CalendarApp.getDefaultCalendar();
+  const now = new Date();
+
+  // 過去180日分の履歴取得
+  const historyStart = new Date(now.getTime() - (180 * 24 * 60 * 60 * 1000));
+  let events = calendar.getEvents(historyStart, now, { search: SEARCH_WORD });
+
+  // ★修正ポイント：イベントが2件未満（0件または1件）の場合はメール通知して終了
+  if (!events || events.length < 2) {
+    const msg = events.length === 0 
+      ? "Googleカレンダーに「生理開始」のイベントが見つかりませんでした。"
+      : "生理開始日が1件しか登録されていないため、平均周期を計算できません。2件以上の登録が必要です。";
+    
+    console.log(msg);
+    
+    const userEmail = Session.getActiveUser().getEmail();
+    if (userEmail) {
+      GmailApp.sendEmail(
+        userEmail,
+        "【通知】生理周期の計算がスキップされました",
+        msg + "\nカレンダーに「生理開始」を入力してから再度実行してください。"
+      );
+    }
+    return; 
+  }
+
+  // 日付順にソート
+  events.sort((a, b) => a.getStartTime() - b.getStartTime());
+
+  let totalDays = 0;
+  let count = 0;
+
+  for (let i = 0; i < events.length - 1; i++) {
+    let diff = events[i + 1].getStartTime() - events[i].getStartTime();
+    let days = diff / (1000 * 60 * 60 * 24);
+
+    // 周期として妥当な範囲（15日〜50日）だけを計算対象にする
+    if (days > 15 && days < 50) {
+      totalDays += days;
+      count++;
+    }
+  }
+
+  // 有効な周期データがない場合
+  if (count === 0) {
+    console.log("適切な間隔のデータが見つからないため、計算を中止します。");
+    return;
+  }
+
+  const avgCycle = Math.round(totalDays / count);
+
+  // 最新イベント取得
+  const latestEvent = events[events.length - 1];
+  const periodStart = new Date(latestEvent.getStartTime());
+
+  // 次回生理予定・排卵日・妊娠可能期間の計算
+  const nextPeriodStart = new Date(periodStart);
+  nextPeriodStart.setDate(periodStart.getDate() + avgCycle);
+
+  const ovulationDay = new Date(nextPeriodStart);
+  ovulationDay.setDate(nextPeriodStart.getDate() - 14);
+
+  const fertilityStart = new Date(ovulationDay);
+  fertilityStart.setDate(ovulationDay.getDate() - 3);
+
+  const fertilityEnd = new Date(ovulationDay);
+  fertilityEnd.setDate(ovulationDay.getDate() + 1);
+
+  // 未来の予測イベント削除
+  const futureSearch = new Date(now.getTime() + (60 * 24 * 60 * 60 * 1000));
+  const futureEvents = calendar.getEvents(now, futureSearch);
+  futureEvents.forEach(event => {
+    if (event.getTitle().includes("【予測】")) {
+      event.deleteEvent();
+    }
+  });
+
+  // 予測イベント作成
+  calendar.createAllDayEvent("【予測】次回生理予定（計算周期: " + avgCycle + "日）", nextPeriodStart).setColor(COLOR_PERIOD);
+  calendar.createAllDayEvent("【予測】排卵推定日", ovulationDay).setColor(COLOR_OVULATION);
+  calendar.createAllDayEvent("【予測】妊娠可能性が高い期間", fertilityStart, fertilityEnd).setColor(COLOR_FERTILITY);
+
+  console.log("平均周期 " + avgCycle + " 日で計算しました！");
+}
