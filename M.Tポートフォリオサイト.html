@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M.T | Web運用・ECサイト改善ポートフォリオ</title>
+
+<style>
+:root{
+  --season-color:#111;
+  --season-soft:#f5f6f8;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  background:var(--season-soft);
+  margin:0;
+  padding:0;
+  color:#333;
+  transition:0.3s;
+}
+
+header{
+  background:var(--season-color);
+  color:white;
+  padding:50px 20px;
+  transition:0.3s;
+}
+
+.header-inner{
+  max-width:1000px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+header h1{
+  margin:0;
+  font-size:26px;
+}
+
+header p{
+  margin:5px 0 0;
+  opacity:0.9;
+}
+
+.github-link{
+  color:white;
+  text-decoration:none;
+  border:1px solid white;
+  padding:8px 15px;
+  border-radius:6px;
+  transition:0.3s;
+}
+
+.github-link:hover{
+  background:white;
+  color:var(--season-color);
+}
+
+nav{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  padding:30px 10px;
+  flex-wrap:wrap;
+}
+
+button{
+  padding:10px 25px;
+  border:1px solid var(--season-color);
+  background:white;
+  cursor:pointer;
+  transition:0.3s;
+  border-radius:6px;
+}
+
+button:hover{
+  background:var(--season-color);
+  color:white;
+}
+
+.active{
+  background:var(--season-color);
+  color:white;
+}
+
+#season-switch{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+#season-switch button{
+  margin:5px;
+}
+
+#content-area{
+  max-width:900px;
+  margin:0 auto 60px;
+  background:white;
+  padding:40px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
+  min-height:300px;
+  transition:0.3s;
+}
+
+.work-card{
+  border-left:4px solid var(--season-color);
+  padding-left:20px;
+  margin-bottom:40px;
+}
+
+.tech{
+  font-size:14px;
+  color:#777;
+}
+
+/* スマホ対応 */
+@media (max-width:600px){
+  header{
+    padding:35px 15px;
+  }
+
+  header h1{
+    font-size:22px;
+  }
+
+  .github-link{
+    margin-top:10px;
+  }
+
+  #content-area{
+    padding:25px;
+  }
+
+  button{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>M.Tのポートフォリオサイト</h1>
+      <p>Web運用 / ECサイト改善 / CMS更新</p>
+    </div>
+
+    <!-- ★ GitHubリンク（ここを自分のIDに変更） -->
+    <a href="https://github.com/あなたのID"
+       target="_blank"
+       class="github-link">
+       GitHub
+    </a>
+  </div>
+</header>
+
+<nav>
+  <button id="btn-profile" onclick="showContent('profile')">Profile</button>
+  <button id="btn-portfolio" onclick="showContent('portfolio')">Works</button>
+  <button id="btn-skill" onclick="showContent('skill')">Skills</button>
+</nav>
+
+<div id="season-switch">
+  <button onclick="setSeason('spring')">春</button>
+  <button onclick="setSeason('summer')">夏</button>
+  <button onclick="setSeason('autumn')">秋</button>
+  <button onclick="setSeason('winter')">冬</button>
+</div>
+
+<div id="content-area"></div>
+
+<script>
+const data = {
+
+profile: `
+<h2>Profile</h2>
+<p>Web運用・ECサイト改善を志望しています。</p>
+<p>
+更新だけでなく「改善」視点を持つ運用担当を目指し、
+課題発見→修正→再確認の流れを意識して制作しています。
+</p>
+`,
+
+portfolio: `
+<h2>Works</h2>
+
+<div class="work-card">
+<h3>① EC運用想定：商品登録・更新管理ツール（GAS）</h3>
+<p class="tech">GAS / JavaScript / Spreadsheet</p>
+<p>更新効率向上と入力ミス防止を目的に制作。</p>
+<p>
+<a href="https://github.com/あなたのID/リポジトリ名" target="_blank">
+→ GitHubで見る
+</a>
+</p>
+</div>
+
+<div class="work-card">
+<h3>② Shopify想定：商品LP改善ページ</h3>
+<p class="tech">HTML / CSS / JavaScript</p>
+<p>購買導線を意識した改善設計。</p>
+<p>
+<a href="https://github.com/あなたのID/リポジトリ名" target="_blank">
+→ GitHubで見る
+</a>
+</p>
+</div>
+`,
+
+skill: `
+<h2>Skills</h2>
+<ul>
+<li>HTML / CSS（レスポンシブ対応）</li>
+<li>JavaScript（DOM操作・UI切替実装）</li>
+<li>GAS（業務自動化・トリガー設定）</li>
+<li>スプレッドシート管理</li>
+</ul>
+<p>現在：Shopify構造理解・テーマ編集学習中</p>
+`
+};
+
+function showContent(key){
+  const area=document.getElementById("content-area");
+  area.style.opacity=0;
+
+  setTimeout(()=>{
+    area.innerHTML=data[key];
+    area.style.opacity=1;
+
+    document.querySelectorAll("nav button").forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+    document.getElementById("btn-"+key).classList.add("active");
+  },200);
+}
+
+/* 季節テーマ */
+
+function setSeason(season){
+  const root=document.documentElement;
+
+  if(season==="spring"){
+    root.style.setProperty("--season-color","#f6a5c0");
+    root.style.setProperty("--season-soft","#fff0f6");
+  }
+  else if(season==="summer"){
+    root.style.setProperty("--season-color","#ffd84d");
+    root.style.setProperty("--season-soft","#fffbe6");
+  }
+  else if(season==="autumn"){
+    root.style.setProperty("--season-color","#ff9f43");
+    root.style.setProperty("--season-soft","#fff4e6");
+  }
+  else{
+    root.style.setProperty("--season-color","#7ed6df");
+    root.style.setProperty("--season-soft","#e8f8fa");
+  }
+}
+
+function autoSeason(){
+  const month=new Date().getMonth()+1;
+
+  if(month>=3&&month<=5)setSeason("spring");
+  else if(month>=6&&month<=8)setSeason("summer");
+  else if(month>=9&&month<=11)setSeason("autumn");
+  else setSeason("winter");
+}
+
+autoSeason();
+showContent("profile");
+</script>
+
+</body>
+</html>
