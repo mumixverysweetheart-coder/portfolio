@@ -1,90 +1,158 @@
 function updateMenstrualCycle() {
-  const SEARCH_WORD = "生理開始";
-  const COLOR_PERIOD = "1";    // ラベンダー
-  const COLOR_OVULATION = "6"; // オレンジ
-  const COLOR_FERTILITY = "4"; // 薄い青
+
+  const START_WORD = "生理開始";
+  const END_WORD   = "生理終了";
+
+  const COLOR_PERIOD = "1";
+  const COLOR_OVULATION = "6";
+  const COLOR_FERTILITY = "4";
 
   const calendar = CalendarApp.getDefaultCalendar();
   const now = new Date();
+  now.setHours(0,0,0,0);
 
-  // 過去180日分の履歴取得
-  const historyStart = new Date(now.getTime() - (180 * 24 * 60 * 60 * 1000));
-  let events = calendar.getEvents(historyStart, now, { search: SEARCH_WORD });
+  const userEmail = Session.getActiveUser().getEmail();
+  if (!userEmail) return;
 
-  // ★修正ポイント：イベントが2件未満（0件または1件）の場合はメール通知して終了
-  if (!events || events.length < 2) {
-    const msg = events.length === 0 
-      ? "Googleカレンダーに「生理開始」のイベントが見つかりませんでした。"
-      : "生理開始日が1件しか登録されていないため、平均周期を計算できません。2件以上の登録が必要です。";
-    
-    console.log(msg);
-    
-    const userEmail = Session.getActiveUser().getEmail();
-    if (userEmail) {
-      GmailApp.sendEmail(
-        userEmail,
-        "【通知】生理周期の計算がスキップされました",
-        msg + "\nカレンダーに「生理開始」を入力してから再度実行してください。"
-      );
-    }
-    return; 
-  }
+  const historyStart = new Date(now.getTime() - (180*24*60*60*1000));
 
-  // 日付順にソート
-  events.sort((a, b) => a.getStartTime() - b.getStartTime());
+  let startEvents = calendar.getEvents(historyStart, now, { search: START_WORD });
+  let endEvents   = calendar.getEvents(historyStart, now, { search: END_WORD });
 
-  let totalDays = 0;
-  let count = 0;
-
-  for (let i = 0; i < events.length - 1; i++) {
-    let diff = events[i + 1].getStartTime() - events[i].getStartTime();
-    let days = diff / (1000 * 60 * 60 * 24);
-
-    // 周期として妥当な範囲（15日〜50日）だけを計算対象にする
-    if (days > 15 && days < 50) {
-      totalDays += days;
-      count++;
-    }
-  }
-
-  // 有効な周期データがない場合
-  if (count === 0) {
-    console.log("適切な間隔のデータが見つからないため、計算を中止します。");
+  if (startEvents.length < 2) {
+    sendMailOnce("DATA_ERROR","【通知】データ不足",
+    "生理開始が2件以上必要です。");
     return;
   }
 
-  const avgCycle = Math.round(totalDays / count);
+  startEvents.sort((a,b)=>a.getStartTime()-b.getStartTime());
+  endEvents.sort((a,b)=>a.getStartTime()-b.getStartTime());
 
-  // 最新イベント取得
-  const latestEvent = events[events.length - 1];
-  const periodStart = new Date(latestEvent.getStartTime());
+  // ===== 周期計算（直近3回） =====
+  let cycles=[];
+  for(let i=startEvents.length-3;i<startEvents.length-1;i++){
+    if(i>=0){
+      let diff=startEvents[i+1].getStartTime()-startEvents[i].getStartTime();
+      let days=diff/(1000*60*60*24);
+      if(days>15 && days<50) cycles.push(days);
+    }
+  }
 
-  // 次回生理予定・排卵日・妊娠可能期間の計算
-  const nextPeriodStart = new Date(periodStart);
-  nextPeriodStart.setDate(periodStart.getDate() + avgCycle);
+  if(cycles.length===0) return;
 
-  const ovulationDay = new Date(nextPeriodStart);
-  ovulationDay.setDate(nextPeriodStart.getDate() - 14);
+  const avgCycle=Math.round(cycles.reduce((a,b)=>a+b)/cycles.length);
 
-  const fertilityStart = new Date(ovulationDay);
-  fertilityStart.setDate(ovulationDay.getDate() - 3);
+  // ===== 異常周期アラート =====
+  if (avgCycle < 21 || avgCycle > 39) {
+    sendMailOnce("CYCLE_ALERT",
+      "【注意】周期が不安定の可能性",
+      "現在の平均周期は " + avgCycle + " 日です。\n周期が通常範囲外の可能性があります。体調に注意してください。");
+  }
 
-  const fertilityEnd = new Date(ovulationDay);
-  fertilityEnd.setDate(ovulationDay.getDate() + 1);
+  // ===== 生理日数計算 =====
+  let periodLengths=[];
 
-  // 未来の予測イベント削除
-  const futureSearch = new Date(now.getTime() + (60 * 24 * 60 * 60 * 1000));
-  const futureEvents = calendar.getEvents(now, futureSearch);
-  futureEvents.forEach(event => {
-    if (event.getTitle().includes("【予測】")) {
-      event.deleteEvent();
+  startEvents.forEach(start=>{
+    let startDate=start.getStartTime();
+    let endMatch=endEvents.find(e=> 
+      Math.abs(e.getStartTime()-startDate)<10*24*60*60*1000
+    );
+    if(endMatch){
+      let diff=endMatch.getStartTime()-startDate;
+      let days=diff/(1000*60*60*24);
+      if(days>=2 && days<=10) periodLengths.push(days);
     }
   });
 
-  // 予測イベント作成
-  calendar.createAllDayEvent("【予測】次回生理予定（計算周期: " + avgCycle + "日）", nextPeriodStart).setColor(COLOR_PERIOD);
-  calendar.createAllDayEvent("【予測】排卵推定日", ovulationDay).setColor(COLOR_OVULATION);
-  calendar.createAllDayEvent("【予測】妊娠可能性が高い期間", fertilityStart, fertilityEnd).setColor(COLOR_FERTILITY);
+  const avgPeriodLength = periodLengths.length>0
+    ? Math.round(periodLengths.reduce((a,b)=>a+b)/periodLengths.length)
+    : 5;
 
-  console.log("平均周期 " + avgCycle + " 日で計算しました！");
+  const latestStart=new Date(startEvents[startEvents.length-1].getStartTime());
+
+  const nextStart=new Date(latestStart);
+  nextStart.setDate(latestStart.getDate()+avgCycle);
+
+  const nextEnd=new Date(nextStart);
+  nextEnd.setDate(nextStart.getDate()+avgPeriodLength);
+
+  const ovulation=new Date(nextStart);
+  ovulation.setDate(nextStart.getDate()-14);
+
+  const fertilityStart=new Date(ovulation);
+  fertilityStart.setDate(ovulation.getDate()-3);
+
+  const fertilityEnd=new Date(ovulation);
+  fertilityEnd.setDate(ovulation.getDate()+1);
+
+  // ===== 未来予測削除 =====
+  const futureSearch=new Date(now.getTime()+60*24*60*60*1000);
+  calendar.getEvents(now,futureSearch).forEach(e=>{
+    if(e.getTitle().includes("【予測】")) e.deleteEvent();
+  });
+
+  // ===== 予測作成 =====
+  calendar.createAllDayEvent("【予測】次回生理開始（"+avgCycle+"日周期）",nextStart).setColor(COLOR_PERIOD);
+  calendar.createAllDayEvent("【予測】次回生理終了",nextStart,nextEnd).setColor(COLOR_PERIOD);
+  calendar.createAllDayEvent("【予測】排卵推定日",ovulation).setColor(COLOR_OVULATION);
+  calendar.createAllDayEvent("【予測】妊娠可能性が高い期間",fertilityStart,fertilityEnd).setColor(COLOR_FERTILITY);
+
+  function isSameDay(d1,d2){
+    return d1.getFullYear()===d2.getFullYear() &&
+           d1.getMonth()===d2.getMonth() &&
+           d1.getDate()===d2.getDate();
+  }
+
+  function sendMailOnce(key,subject,body){
+    const props=PropertiesService.getScriptProperties();
+    const last=props.getProperty(key);
+    if(last!==now.toDateString()){
+      GmailApp.sendEmail(userEmail,subject,body);
+      props.setProperty(key,now.toDateString());
+    }
+  }
+
+  let weekBefore=new Date(nextStart);
+  weekBefore.setDate(nextStart.getDate()-7);
+  if(isSameDay(now,weekBefore)){
+    sendMailOnce("PERIOD_WEEK",
+    "【通知】生理予定日一週間前です",
+    "生理予定日一週間前です。");
+  }
+
+  let after7=new Date(nextStart);
+  after7.setDate(nextStart.getDate()+7);
+  if(now>after7){
+    sendMailOnce("PERIOD_MISS",
+    "【確認】生理開始日が入力されていません",
+    "生理開始日が入力されていません。");
+  }
+
+  let ovuBefore=new Date(ovulation);
+  ovuBefore.setDate(ovulation.getDate()-3);
+  if(isSameDay(now,ovuBefore)){
+    sendMailOnce("OVU_NOTICE",
+    "【通知】妊娠可能性が高い期間に入ります",
+    "妊娠可能性が高い期間に入ります。");
+  }
+
+  if(isSameDay(now,ovulation)){
+    sendMailOnce("OVU_DAY",
+    "【通知】本日が排卵予測日です",
+    "本日が排卵予測日です。");
+  }
+
+  const props=PropertiesService.getScriptProperties();
+  let sheetId=props.getProperty("SHEET_ID");
+
+  if(!sheetId){
+    const ss=SpreadsheetApp.create("生理周期ログ");
+    sheetId=ss.getId();
+    props.setProperty("SHEET_ID",sheetId);
+  }
+
+  const sheet=SpreadsheetApp.openById(sheetId).getActiveSheet();
+  sheet.appendRow([now,avgCycle,avgPeriodLength,nextStart,nextEnd,ovulation]);
+
+  console.log("異常周期アラート入り精密版 完了");
 }
