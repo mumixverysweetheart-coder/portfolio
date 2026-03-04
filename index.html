@@ -117,7 +117,6 @@ button:hover{
   color:#777;
 }
 
-/* スマホ対応 */
 @media (max-width:600px){
   header{
     padding:35px 15px;
@@ -151,8 +150,7 @@ button:hover{
       <p>Web運用 / ECサイト改善 / CMS更新</p>
     </div>
 
-    <!-- ★ GitHubリンク（ここを自分のIDに変更） -->
-    <a href="https://github.com/あなたのID"
+    <a href="https://github.com/mumixverysweetheart-coder"
        target="_blank"
        class="github-link">
        GitHub
@@ -194,47 +192,38 @@ portfolio: `
 </p>
 
 <div class="work-card">
-<h3>① EC運用想定：商品登録・更新管理ツール（GAS）</h3>
+<h3>① 生理管理ツール（GAS）</h3>
 <p class="tech">GAS / JavaScript / Spreadsheet</p>
-
 <p>
-更新業務を想定し、入力ミスと更新工数の発生を課題と設定。
+更新作業におけるヒューマンエラーと確認工数の発生を課題と捉え、
+自動集計とアラート通知を組み合わせた仕組みを構築しました。
 </p>
-
 <p>
-改善施策として、自動集計処理と在庫しきい値トリガー通知を実装。
+非エンジニアでも扱えるUI設計を意識し、
+実務運用を想定した業務効率化ツールとして設計・実装しています。
 </p>
-
 <p>
-結果：更新確認時間の短縮と、人的チェック工程の削減を実現。
-</p>
-
-<p>
-<a href="https://github.com/あなたのID/リポジトリ名" target="_blank">
+<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
 → GitHubで見る
 </a>
 </p>
-<p><strong>→ 業務効率化を目的とした自動化設計を実装。</strong></p>
+<p><strong>→ 更新業務を想定した自動化設計</strong></p>
 </div>
 
 <div class="work-card">
 <h3>② Shopify想定：商品LP改善ページ</h3>
 <p class="tech">HTML / CSS / JavaScript</p>
-
 <p>
 既存LPを想定し、購買導線が弱い点を課題と設定。
 </p>
-
 <p>
 ファーストビュー整理・CTA強調・余白設計の改善を実施。
 </p>
-
 <p>
 視線誘導を意識した構造へ再設計。
 </p>
-
 <p>
-<a href="https://github.com/あなたのID/リポジトリ名" target="_blank">
+<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
 → GitHubで見る
 </a>
 </p>
@@ -244,19 +233,15 @@ portfolio: `
 <div class="work-card">
 <h3>③ CMS更新デモ（簡易CMS風UI切替）</h3>
 <p class="tech">HTML / CSS / JavaScript（DOM操作）</p>
-
 <p>
 実際の更新業務を想定し、ボタン操作のみでコンテンツ変更が可能なUIを制作。
 </p>
-
 <p>
 DOM操作により、編集内容が即時反映される仕組みを実装。
 </p>
-
 <p>
 非エンジニアでも扱える更新設計を意識。
 </p>
-
 <p>
 <a href="cms-demo.html" target="_blank">
 → デモページを見る
@@ -264,7 +249,6 @@ DOM操作により、編集内容が即時反映される仕組みを実装。
 </p>
 <p><strong>→ 非エンジニア目線の更新設計を意識。</strong></p>
 </div>
-
 `,
 
 skill: `
@@ -294,8 +278,6 @@ function showContent(key){
     document.getElementById("btn-"+key).classList.add("active");
   },200);
 }
-
-/* 季節テーマ */
 
 function setSeason(season){
   const root=document.documentElement;
