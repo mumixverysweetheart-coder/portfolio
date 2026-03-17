@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>EC改善デモ</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+background:#f5f5f5;
+margin:0;
+padding:0;
+}
+
+.container{
+max-width:900px;
+margin:40px auto;
+background:white;
+padding:30px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+margin-top:0;
+}
+
+.section{
+margin-bottom:50px;
+}
+
+.product{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.img{
+width:300px;
+height:300px;
+background:url("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=600") center/cover;
+border-radius:8px;
+}
+
+.info{
+flex:1;
+min-width:250px;
+}
+
+.price{
+font-size:26px;
+color:#e60023;
+margin:10px 0;
+font-weight:bold;
+}
+
+button{
+background:#ff4d6d;
+color:white;
+border:none;
+padding:15px 30px;
+font-size:16px;
+cursor:pointer;
+border-radius:6px;
+margin-top:10px;
+}
+
+button:hover{
+opacity:0.8;
+}
+
+.bad button{
+background:gray;
+margin-top:30px;
+}
+
+.note{
+margin-top:20px;
+padding:15px;
+background:#fff4f6;
+border-left:5px solid pink;
+line-height:1.6;
+}
+
+.title-bad{
+color:red;
+}
+
+.title-good{
+color:green;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ECサイト改善提案デモ</h1>
+
+
+<!-- 改善前 -->
+
+<div class="section">
+
+<h2 class="title-bad">改善前</h2>
+
+<div class="product bad">
+
+<div class="img"></div>
+
+<div class="info">
+
+<h3>シンプルTシャツ</h3>
+
+<p>
+説明が先にあり、購入ボタンが遠く配置されている。
+</p>
+
+<p>
+価格情報が目立たず、購入までの導線が弱い構成。
+</p>
+
+<div class="price">¥3,980</div>
+
+<button>購入する</button>
+
+</div>
+
+</div>
+
+<div class="note">
+
+問題点<br>
+・ボタン位置が遠い<br>
+・価格が目立たない<br>
+・情報順が分かりにくい<br>
+・視線誘導が弱い
+
+</div>
+
+</div>
+
+
+
+<!-- 改善後 -->
+
+<div class="section">
+
+<h2 class="title-good">改善後</h2>
+
+<div class="product">
+
+<div class="img"></div>
+
+<div class="info">
+
+<h3>シンプルコットンTシャツ</h3>
+
+<div class="price">¥3,980</div>
+
+<button>購入する</button>
+
+<p>
+価格 → ボタン → 説明の順に配置し、
+視線誘導を意識した構成に改善。
+</p>
+
+<p>
+余白を整理し、購入導線を強化。
+</p>
+
+</div>
+
+</div>
+
+<div class="note">
+
+改善ポイント<br>
+・価格の近くに購入ボタン配置<br>
+・情報の優先順位整理<br>
+・余白調整<br>
+・視線誘導強化<br>
+・CV向上を想定したUI改善
+
+</div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>
