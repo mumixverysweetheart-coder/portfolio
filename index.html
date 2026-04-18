@@ -3,485 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M.T | Web運用・ECサイト改善ポートフォリオ</title>
+<title>M.T | Web運用ポートフォリオ</title>
+<link rel="stylesheet" href="style.css">
 
-<style>
-:root{
-  --season-color:#111;
-  --season-soft:#f5f6f8;
-}
-
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  background:var(--season-soft);
-  margin:0;
-  padding:0;
-  color:#333;
-  transition:0.3s;
-}
-
-header{
-  background:var(--season-color);
-  color:white;
-  padding:50px 20px;
-  transition:0.3s;
-}
-
-.header-inner{
-  max-width:1000px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-header h1{
-  margin:0;
-  font-size:26px;
-}
-
-header p{
-  margin:5px 0 0;
-  opacity:0.9;
-}
-
-.github-link{
-  color:white;
-  text-decoration:none;
-  border:1px solid white;
-  padding:8px 15px;
-  border-radius:6px;
-  transition:0.3s;
-}
-
-.github-link:hover{
-  background:white;
-  color:var(--season-color);
-}
-
-nav{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  padding:30px 10px;
-  flex-wrap:wrap;
-}
-
-button{
-  padding:10px 25px;
-  border:1px solid var(--season-color);
-  background:white;
-  cursor:pointer;
-  transition:0.3s;
-  border-radius:6px;
-}
-
-button:hover{
-  background:var(--season-color);
-  color:white;
-}
-
-.active{
-  background:var(--season-color);
-  color:white;
-}
-
-#season-switch{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-#season-switch button{
-  margin:5px;
-}
-
-#content-area{
-  max-width:900px;
-  margin:0 auto 60px;
-  background:white;
-  padding:40px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.05);
-  min-height:300px;
-  transition:0.3s;
-}
-
-.work-card{
-  border-left:4px solid var(--season-color);
-  padding-left:20px;
-  margin-bottom:40px;
-}
-
-.tech{
-  font-size:14px;
-  color:#777;
-}
-
-@media (max-width:600px){
-  header{
-    padding:35px 15px;
-  }
-
-  header h1{
-    font-size:22px;
-  }
-
-  .github-link{
-    margin-top:10px;
-  }
-
-  #content-area{
-    padding:25px;
-  }
-
-  button{
-    width:100%;
-  }
-}
-</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
-    <div>
-      <h1>M.Tのポートフォリオサイト</h1>
-      <p>Web運用 / ECサイト改善 / AI活用 / 運用設計 / CMS更新</p>
-    </div>
-
-    <a href="https://github.com/mumixverysweetheart-coder"
-       target="_blank"
-       class="github-link">
-       GitHub
-    </a>
-  </div>
+  <h1>M.T Portfolio</h1>
+  <p>Web運用 / EC改善 / AI活用</p>
+  <a href="https://github.com/mumixverysweetheart-coder" target="_blank" style="color:#fff;">
+    GitHubを見る
+  </a>
 </header>
 
 <nav>
-  <button id="btn-profile" onclick="showContent('profile')">Profile</button>
-  <button id="btn-portfolio" onclick="showContent('portfolio')">Works</button>
-  <button id="btn-skill" onclick="showContent('skill')">Skills</button>
+  <a href="#about">ABOUT</a>
+  <a href="#strength">STRENGTH</a>
+  <a href="#works">WORKS</a>
+  <a href="#skill">SKILL</a>
 </nav>
 
-<div id="season-switch">
-  <button onclick="setSeason('spring')">春</button>
-  <button onclick="setSeason('summer')">夏</button>
-  <button onclick="setSeason('autumn')">秋</button>
-  <button onclick="setSeason('winter')">冬</button>
-</div>
+<!-- ABOUT -->
+<section id="about">
+<h2>ABOUT</h2>
 
-<div id="content-area"></div>
-
-<script>
-const data = {
-
-profile: `
-<h2>Profile</h2>
-<p>Web運用・ECサイト改善を志望しています。</p>
-
-<p>更新作業だけでなく「改善」の視点を持つ運用担当を目指し、
-課題発見 → 修正 → 再確認の流れを意識して制作しています。</p>
-
-<p>ポートフォリオでは、
-FAQ作成、CMS更新、UI改善、EC改善に加え、
-生成AIを活用した文章作成や回答生成を行い、
-
-AI生成 → 人の確認 → 修正 → CMS更新 → 公開
-
-といった実務を想定した運用フローを構築しました。</p>
-
-<p>制作だけでなく、
-AI活用・運用・改善まで関われる業務を目標としています。
-</p>
-`,
-
-portfolio: `
-<h2>Works</h2>
 <p>
-実務を想定し、「課題設定 → 改善 → 実装」までを一貫して制作しています。
-</p>
-
-<div class="work-card">
-<h3>① 生理管理ツール（GAS）</h3>
-<p class="tech">GAS / JavaScript / Spreadsheet</p>
-<p>
-更新作業におけるヒューマンエラーと確認工数の発生を課題と捉え、
-自動集計とアラート通知を組み合わせた仕組みを構築しました。
-</p>
-<p>
-非エンジニアでも扱えるUI設計を意識し、
-実務運用を想定した業務効率化ツールとして設計・実装しています。
-</p>
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
-</p>
-<p><strong>→ 更新業務を想定した自動化設計</strong></p>
-</div>
-
-<div class="work-card">
-<h3>② Shopify想定：商品LP改善ページ</h3>
-
-<p class="tech">
-HTML / CSS / UI改善 / 導線設計
+Web運用・ECサイト改善を志望しています。<br>
+更新作業に留まらず、「課題発見 → 改善 → 効果確認」まで一貫して行う運用を強みとしています。
 </p>
 
 <p>
-既存LPを想定し、購買導線が弱い点を課題として設定。
-ファーストビュー整理、CTA強調、余白調整を行い、
-購入までの流れを分かりやすくする改善案を作成しました。
+ポートフォリオでは、LP改善・EC改善・CMS更新・業務自動化（GAS）・FAQ作成など、実務を想定した課題に対し、改善施策の立案から実装までを行いました。
 </p>
 
 <p>
-改善前 → 改善後を比較できるデモを作成し、
-視線誘導・情報順・ボタン配置を見直しています。
-</p>
-<p>
-<a href="lp-demo.html" target="_blank">
-→LP改善デモを見る
-</a>
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
+特に、生成AIを活用したFAQ作成や回答改善では、AIの出力をそのまま使用せず、人の確認・修正を前提とした運用フローを構築し、品質と効率の両立を意識しています。
 </p>
 
 <p>
-→ UI / 導線 / CV改善を意識したLP改善ポートフォリオ
-</p>
-
-</div>
-
-<div class="work-card">
-<h3>③ CMS更新デモ（簡易CMS風UI切替）</h3>
-<p class="tech">HTML / CSS / JavaScript（DOM操作）</p>
-<p>
-実際の更新業務を想定し、ボタン操作のみでコンテンツ変更が可能なUIを制作。
-</p>
-<p>
-DOM操作により、編集内容が即時反映される仕組みを実装。
-</p>
-<p>
-非エンジニアでも扱える更新設計を意識。
+今後は、Web運用・EC運用において、既存業務の改善提案や効率化に主体的に取り組み、継続的なサイト改善に貢献できる人材を目指しています。
 </p>
 
 <p>
-<a href="cms-demo.html" target="_blank">
-→ デモページを見る
-</a>
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
-
-</p>
-<p><strong>→ 非エンジニア目線の更新設計を意識。</strong></p>
-</div>
-
-<div class="work-card">
-
-<h3>④ ChatGPTを活用したFAQページ作成による業務効率化提案</h3>
-
-<p class="tech">HTML / CSS / ChatGPT</p>
-
-<p>
-ECサイトで同じ内容の問い合わせが多いことを課題と想定し、<br>
-生成AI（ChatGPT）を活用してFAQ文章を作成。<br>
-HTMLでFAQページを制作し、問い合わせ削減と業務効率化を目的とした構成を設計。
+IT事務・Web運用の現場においても、正確性と効率性の両立を意識し、継続的な業務改善に取り組みます。
 </p>
 
-<p>
-AI出力をそのまま使用するのではなく、<br>
-実運用を想定して文章の修正・整理を行い、<br>
-非エンジニアでも扱えるFAQ構成を意識した。
-</p>
-<p>
-<a href="faq.html" target="_blank">
-→FAQデモを見る
-</a>
-</p>
+</section>
 
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
-</div>
-
-<div class="work-card">
-
-<h3>⑤ ECサイト改善提案（UI / 導線 / CV改善）</h3>
-
-<p class="tech">HTML / CSS / UI改善 / 導線設計</p>
-
-<p>
-ECサイトで購入までの導線が分かりにくい場合を想定し、<br>
-商品ページ・ボタン配置・情報量の整理などの改善案を作成。<br>
-ユーザーが迷わず購入まで進める構成を意識して設計しました。
-</p>
-
-<p>
-実務を想定し、<br>
-・ボタン位置の最適化<br>
-・余白調整<br>
-・情報の優先順位整理<br>
-・視線誘導<br>
-を意識してUI改善を行いました。
-</p>
-
-<p>
-<a href="ec-demo.html">→改善デモを見る</a>
-</p>
-
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
-</p>
-<p>
-→ UI / UXを意識したEC改善提案ポートフォリオ
-</p>
-
-</div>
-
-<div class="work-card">
-
-<h3>⑥ AI回答修正（生成AI / FAQ運用）</h3>
-
-<p class="tech">
-ChatGPT / HTML / FAQ / 運用想定
-</p>
-
-<p>
-ECサイトで同じ内容の問い合わせが多いことを想定し、
-生成AI（ChatGPT）でFAQ回答を作成しました。
-</p>
-
-<p>
-AI出力をそのまま使用するのではなく、
-実運用を想定して文章の修正・整理を行い、
-読みやすさ・正確性・ユーザー理解を意識して調整しました。
-</p>
-
-<p>
-非エンジニアでも更新できるFAQ構成を意識しています。
-</p>
-
-</div>
-
-<div class="work-card">
-
-<h3>⑦ FAQ運用フロー設計（AI活用）</h3>
-
-<p class="tech">
-運用設計 / AI活用 / CMS / FAQ
-</p>
-
-<p>
-問い合わせ対応の効率化を目的に、
-AI生成 → 人の修正 → CMS更新 → 公開
-の流れを想定してFAQ運用フローを設計しました。
-</p>
-
-<p>
-実務での運用を想定し、
-・AIによる下書き生成<br>
-・人による内容確認<br>
-・CMSでの更新<br>
-・公開後の修正<br>
-の流れを意識しています。
-</p>
-
-<p>
-運用しやすさと更新しやすさを重視した構成にしました。
-</p>
-
-<p>
-<a href="flow-demo.html" target="_blank">
-→運用フローを見る
-</a>
-</p>
-<p>
-<a href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">
-→ GitHubで見る
-</a>
-
-</div>
-
-</div>
-`,
-
-skill: `
-<h2>Skills</h2>
+<!-- STRENGTH -->
+<section id="strength">
+<h2>STRENGTH（できること）</h2>
 
 <ul>
-<li>HTML / CSS（レスポンシブ対応）</li>
-<li>JavaScript（DOM操作・UI切替実装）</li>
-<li>GAS（業務自動化 / トリガー設定）</li>
-<li>スプレッドシート管理</li>
+<li>更新業務の効率化（GAS / 自動化）</li>
+<li>UI改善（LP / ECサイト）</li>
+<li>CMS更新設計（非エンジニア対応）</li>
+<li>FAQ改善（問い合わせ削減）</li>
+<li>AI活用（業務効率化）</li>
 </ul>
 
-<p>
-CMS更新 / FAQ作成 / UI改善 / EC改善 / AI活用 / 運用設計
+</section>
+
+<!-- WORKS -->
+<section id="works">
+<h2>WORKS</h2>
+
+<!-- ① -->
+<div class="work">
+<h3>① LP改善（CV向上施策）</h3>
+<p class="tech">HTML / CSS</p>
+
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+購入導線が分かりにくく、ユーザーが離脱する可能性がある点を課題と想定。
 </p>
 
-<p>
-現在学習中：
-Photoshop / Figma / Shopifyテーマ構造理解 / UIデザイン
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+ファーストビューの整理、CTAボタンの強調、余白調整を行い、視線誘導を改善。
 </p>
-`
-};
 
-function showContent(key){
-  const area=document.getElementById("content-area");
-  area.style.opacity=0;
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+ユーザーが迷わず行動できる構成へ改善し、CV向上を意識した設計を実現。
+</p>
 
-  setTimeout(()=>{
-    area.innerHTML=data[key];
-    area.style.opacity=1;
+<a class="link" href="lp-demo.html">デモ</a>
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
 
-    document.querySelectorAll("nav button").forEach(btn=>{
-      btn.classList.remove("active");
-    });
+<!-- ② -->
+<div class="work">
+<h3>② ECサイト改善（UI / 導線最適化）</h3>
+<p class="tech">HTML / CSS</p>
 
-    document.getElementById("btn-"+key).classList.add("active");
-  },200);
-}
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+商品ページの情報整理が不十分で、購入までの導線が分かりにくい点を課題と想定。
+</p>
 
-function setSeason(season){
-  const root=document.documentElement;
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+ボタン配置、情報優先順位、余白設計を見直し、ユーザーの視線誘導を改善。
+</p>
 
-  if(season==="spring"){
-    root.style.setProperty("--season-color","#f6a5c0");
-    root.style.setProperty("--season-soft","#fff0f6");
-  }
-  else if(season==="summer"){
-    root.style.setProperty("--season-color","#ffd84d");
-    root.style.setProperty("--season-soft","#fffbe6");
-  }
-  else if(season==="autumn"){
-    root.style.setProperty("--season-color","#ff9f43");
-    root.style.setProperty("--season-soft","#fff4e6");
-  }
-  else{
-    root.style.setProperty("--season-color","#7ed6df");
-    root.style.setProperty("--season-soft","#e8f8fa");
-  }
-}
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+購入までの流れをスムーズにし、ユーザー行動を意識したUI改善を実現。
+</p>
 
-function autoSeason(){
-  const month=new Date().getMonth()+1;
+<a class="link" href="ec-demo.html">デモ</a>
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
 
-  if(month>=3&&month<=5)setSeason("spring");
-  else if(month>=6&&month<=8)setSeason("summer");
-  else if(month>=9&&month<=11)setSeason("autumn");
-  else setSeason("winter");
-}
+<!-- ③ -->
+<div class="work">
+<h3>③ CMS更新デモ（運用効率化）</h3>
+<p class="tech">JavaScript</p>
 
-autoSeason();
-showContent("profile");
-</script>
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+更新作業が属人化し、非エンジニアでは扱いづらい点を課題と想定。
+</p>
+
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+ボタン操作のみで更新可能なUIを実装し、DOM操作で即時反映を実現。
+</p>
+
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+誰でも更新できる仕組みを構築し、業務の属人化防止と効率化を実現。
+</p>
+
+<a class="link" href="cms-demo.html">デモ</a>
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
+
+<!-- ④ -->
+<div class="work">
+<h3>④ 業務自動化ツール（GAS）</h3>
+<p class="tech">GAS / Spreadsheet</p>
+
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+手作業による入力ミス・確認工数の増加を課題と想定。
+</p>
+
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+スプレッドシートとGASで自動集計・通知機能を実装し、定期チェックを自動化。
+</p>
+
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+作業時間削減・ミス防止を実現し、業務効率化に貢献。
+</p>
+
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
+
+<!-- ⑤ -->
+<div class="work">
+<h3>⑤ FAQ作成（問い合わせ削減）</h3>
+<p class="tech">HTML / ChatGPT</p>
+
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+同様の問い合わせが多く、対応工数が増加している点を課題と想定。
+</p>
+
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+AIを活用してFAQを作成し、内容を整理・修正してユーザー向けに最適化。
+</p>
+
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+問い合わせ削減と対応効率化を意識したコンテンツを作成。
+</p>
+
+<a class="link" href="faq.html">デモ</a>
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
+
+<!-- ⑥ -->
+<div class="work">
+<h3>⑥ AI回答修正（品質改善）</h3>
+<p class="tech">ChatGPT</p>
+
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+AI生成文章の精度・分かりやすさにばらつきがある点を課題と想定。
+</p>
+
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+文章の修正・構成整理を行い、ユーザー目線で内容を最適化。
+</p>
+
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+AIと人の役割分担による品質向上を実現。
+</p>
+
+</div>
+
+<!-- ⑦ -->
+<div class="work">
+<h3>⑦ FAQ運用フロー設計（業務設計）</h3>
+<p class="tech">運用設計</p>
+
+<p class="item-title">■ 課題</p>
+<p class="item-text">
+問い合わせ対応の非効率さと更新フローの不明確さを課題と想定。
+</p>
+
+<p class="item-title">■ 対応</p>
+<p class="item-text">
+AI生成 → 人の修正 → CMS更新 → 公開 の運用フローを設計。
+</p>
+
+<p class="item-title">■ 成果</p>
+<p class="item-text">
+継続運用しやすい仕組みを構築し、業務効率化を実現。
+</p>
+
+<a class="link" href="flow-demo.html">デモ</a>
+<a class="link" href="https://github.com/mumixverysweetheart-coder/portfolio" target="_blank">GitHub</a>
+</div>
+
+</section>
+
+<!-- SKILL -->
+<section id="skill">
+<h2>SKILL</h2>
+
+<ul>
+<li>HTML / CSS</li>
+<li>JavaScript</li>
+<li>GAS</li>
+<li>スプレッドシート</li>
+</ul>
+
+</section>
 
 </body>
 </html>
