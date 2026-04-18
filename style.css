@@ -1,0 +1,113 @@
+:root{
+  --main-color:#4da6ff;
+  --bg-color:#f0f8ff;
+  --text-color:#333;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  margin:0;
+  background:var(--bg-color);
+  color:var(--text-color);
+}
+
+/* ヘッダー */
+header{
+  background:var(--main-color);
+  color:#fff;
+  padding:60px 20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+}
+
+header a{
+  color:#fff;
+  display:inline-block;
+  margin-top:10px;
+  border:1px solid #fff;
+  padding:8px 15px;
+  border-radius:6px;
+  text-decoration:none;
+}
+
+header a:hover{
+  background:#fff;
+  color:var(--main-color);
+}
+
+/* ナビ */
+nav{
+  text-align:center;
+  padding:20px;
+}
+
+nav a{
+  margin:0 10px;
+  text-decoration:none;
+  color:var(--main-color);
+  font-weight:bold;
+}
+
+/* セクション */
+section{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:40px;
+  border-radius:8px;
+}
+
+/* 見出し */
+h2{
+  border-bottom:2px solid var(--main-color);
+  padding-bottom:10px;
+}
+
+/* 作品 */
+.work{
+  margin-bottom:40px;
+  border-left:4px solid var(--main-color);
+  padding-left:15px;
+}
+
+/* 技術 */
+.tech{
+  font-size:14px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+/* 課題・対応・成果 */
+.item-title{
+  font-weight:bold;
+  margin-top:20px;
+  margin-bottom:5px;
+}
+
+.item-text{
+  margin:5px 0;
+  line-height:1.7;
+}
+
+/* リンク */
+.link{
+  display:inline-block;
+  margin-top:10px;
+  margin-right:10px;
+  color:var(--main-color);
+  text-decoration:none;
+}
+
+.link:hover{
+  text-decoration:underline;
+}
+
+/* レスポンシブ */
+@media(max-width:600px){
+  section{
+    padding:20px;
+  }
+}
